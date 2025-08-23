@@ -57,7 +57,7 @@ class News:
             "title": self.title,
             "url": self.url,
             "summary": self.summary,
-            "source": self.source_country,
+            "source_country": self.source_country,
             "authors": self.authors,
             "publish_time": self.publish_time,
         }
