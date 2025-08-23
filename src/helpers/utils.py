@@ -1,10 +1,9 @@
-import logging
-from datetime import datetime
-import os
 import json
-from typing import Union
-from uuid import uuid1
+import logging
+import os
 import subprocess
+from datetime import datetime
+from typing import Union
 
 DATETIME_FMT = "%Y-%m-%d %H:%S:%M"
 ENCONDING = "utf-8"
@@ -16,6 +15,7 @@ CSV_EXTENSION = "csv"
 SQL_EXTENSION = "sql"
 APPEND_MODE = ("append", "a")
 OVERWRITE_MODE = ("overwrite", "w")
+
 
 def settup_logger(class_name: str) -> logging.Logger:
     logger = logging.getLogger(class_name)
@@ -43,7 +43,7 @@ def parse_iso_datetime(string_time):
         return dtime
     except ValueError:
         return None
-    
+
 
 def check_exists_file(file_path: str):
     # Only rstrip to handle error whether user using relative path
@@ -52,14 +52,16 @@ def check_exists_file(file_path: str):
         return True
     else:
         return False
-    
+
+
 def check_exists_folder(folder_path: str):
     folder_path = folder_path.rstrip()
     if os.path.isdir(folder_path):
         return True
     else:
         return False
-    
+
+
 def create_if_not_exist_folder(folder_path: str):
     if not check_exists_folder(folder_path):
         os.makedirs(folder_path)
@@ -72,16 +74,14 @@ def create_temp_folder(folder_name):
 
 
 def remove_folder(folder_path):
-    print(folder_path)
     try:
         if check_exists_folder(folder_path):
             subprocess.run(["rm", "-rf", folder_path], check=True)
     except subprocess.CalledProcessError as e:
         raise Exception(f"Error remove folder: {e}")
-    
+
 
 def upload_folder(folder_source, folder_target):
-    print(folder_source, folder_target)
     try:
         if check_exists_folder(folder_source):
             subprocess.run(["cp", "-r", f"{folder_source}/", folder_target], check=True)
@@ -104,11 +104,12 @@ def identify_file_type(file_name: str):
     elif extension == SQL_EXTENSION:
         return SQL_EXTENSION, cleaned_file_name
     else:
-        raise ValueError(f"Error file type for {file_name}. Only support for {CSV_EXTENSION}, {PARQUET_EXTENSION}, {JSON_EXTENSION}, {SQL_EXTENSION} files")
+        raise ValueError(
+            f"Error file type for {file_name}. Only support for {CSV_EXTENSION}, {PARQUET_EXTENSION}, {JSON_EXTENSION}, {SQL_EXTENSION} files"
+        )
 
 
 def read_json_file(file_path: str) -> list[dict]:
-    print(file_path)
     with open(file=file_path, mode="r", encoding=ENCONDING) as file:
         data = json.load(file)
     return data
@@ -126,7 +127,9 @@ def write_sql_file(data: str, file_path: str):
         file.write(data)
 
 
-def export_dict_to_json_file(data: list[dict], folder_path, file_name, write_mode=OVERWRITE_MODE[0], create_folder=False):
+def export_dict_to_json_file(
+    data: list[dict], folder_path, file_name, write_mode=OVERWRITE_MODE[0], create_folder=False
+):
     folder_path = folder_path.strip().rstrip("/")
     file_type, file_name = identify_file_type(file_name)
     if file_type != JSON_EXTENSION:
@@ -137,10 +140,10 @@ def export_dict_to_json_file(data: list[dict], folder_path, file_name, write_mod
 
     if write_mode.lower() not in [OVERWRITE_MODE[0], APPEND_MODE[0]]:
         raise ValueError(f"Not support {write_mode} mode. Allow write mode: {[OVERWRITE_MODE[0], APPEND_MODE[0]]}")
-    
+
     if not check_exists_folder(folder_path) and not create_folder:
-            raise Exception(f"{folder_path} is not exists")
-    
+        raise Exception(f"{folder_path} is not exists")
+
     if create_folder:
         create_if_not_exist_folder(folder_path)
 

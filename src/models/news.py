@@ -1,5 +1,6 @@
 from helpers.utils import parse_iso_datetime
 
+
 class News:
     def __init__(self, id, title, url, summary, authors, source_country, publish_time):
         self.id = self.catch_number_value(id)
@@ -14,22 +15,18 @@ class News:
     def format_text_string(value):
         if value:
             # Remove redundant new lines, spaces
-            lines = [
-                line.strip()
-                for line in value.split("\n")
-                if line.strip() != ""
-            ]
+            lines = [line.strip() for line in value.split("\n") if line.strip() != ""]
             return "\n".join(lines)
         else:
             return "Not Given"
-    
+
     @staticmethod
     def catch_number_value(value):
         if isinstance(value, int) and value > 0:
             return value
         else:
             return -1
-        
+
     @staticmethod
     def extract_list_authors(ls_authors) -> list:
         if ls_authors:
@@ -40,7 +37,7 @@ class News:
                 return [str(ls_authors).strip()]
         else:
             return []
-    
+
     def __str__(self):
         return f"""
 - ID {self.id}: {self.title}
@@ -50,7 +47,7 @@ class News:
     + Authors: {self.authors}
     + Publish time: {self.publish_time}
 """
-    
+
     def as_dict(self):
         return {
             "id": self.id,

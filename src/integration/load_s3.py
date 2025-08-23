@@ -1,7 +1,15 @@
-from integration.processor import ETLPipeline
-from helpers import create_temp_folder, remove_folder, upload_folder, dataframe_to_json, dataframe_to_csv, dataframe_to_parquet
 from datetime import datetime
-import os
+
+from helpers import (
+    create_temp_folder,
+    dataframe_to_csv,
+    dataframe_to_json,
+    dataframe_to_parquet,
+    remove_folder,
+    upload_folder,
+)
+from integration.processor import ETLPipeline
+
 
 class LoadS3Pipeline(ETLPipeline):
     def load_to_target(self, df):
@@ -22,4 +30,3 @@ class LoadS3Pipeline(ETLPipeline):
         dataframe_to_json(df=df, output_path=f"{folder_temp}/json")
         dataframe_to_parquet(df=df, output_path=f"{folder_temp}/parquet")
         return folder_temp
-

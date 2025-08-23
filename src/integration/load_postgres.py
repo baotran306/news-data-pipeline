@@ -1,6 +1,8 @@
-from integration.processor import ETLPipeline
 from pyspark.sql import DataFrame
+
 from helpers import write_sql_file
+from integration.processor import ETLPipeline
+
 
 class LoadPostgresPipeline(ETLPipeline):
     def load_to_target(self, df: DataFrame):
@@ -21,7 +23,7 @@ class LoadPostgresPipeline(ETLPipeline):
             |-- url: varchar(500) NULL
             |-- source_country_name: varchar(100) NULL
             |-- updated: timestamp NOT NULL
-        
+
         """
         df.createOrReplaceTempView("source_table")
         upsert_script = """
@@ -29,7 +31,7 @@ MERGE INTO table_target as t
 USING source_table as s
 ON t.id = s.id
 WHEN MATCHED THEN
-    UPDATE SET 
+    UPDATE SET
         authors = s.authors,
         publish_time = s.publish_time,
         summary = s.summary,
