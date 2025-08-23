@@ -30,8 +30,8 @@ def settup_logger(class_name: str) -> logging.Logger:
     return logger
 
 
-# TODO: Refactor JsonIO class for read/write operation
-# DatetimeEncoder override JSOnEndoer default method with ISO format
+# TODO: Refactor JsonIO Class for read/write operation
+# DatetimeEncoder override JSonEndoer default method with ISO format
 def parse_iso_datetime(string_time):
     try:
         dtime = datetime.strptime(string_time, DATETIME_FMT).isoformat()
@@ -79,6 +79,6 @@ def export_dict_to_json_file(data: list[dict], folder_path, file_name, write_mod
     # If mode append, then read old data, combine write with new data
     if write_mode == APPEND_MODE[0] and os.path.isfile(full_path):
         old_data = read_json_file(full_path)
-        data.append(old_data)
+        data.extend(old_data)
 
     write_json_file(data, full_path)
