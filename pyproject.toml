@@ -1,0 +1,24 @@
+[project]
+name = "news-data-pipeline"
+version = "0.1.0"
+description = "Data pipeline for ingest data from News World and then process, store in DWH"
+readme = "README.md"
+requires-python = ">=3.10, <3.11"
+dependencies = [
+    "pyspark==3.5.6",
+    "requests>=2.32.5",
+    "click>=8,<9",
+    "pre-commit>=4.3.0",
+]
+
+[tool.ruff]
+select = ["E", "F", "I"] # Enable pycodestyle(`E`), Pyflakes(`F`), Isort(`I`) codes
+ignore = ["E501"]
+line-length = 120
+
+[tool.mypy]
+ignore_missing_import = true
+scripts_are_modules = true
+disallow_any_expr = false
+disallow_any_decorated = false
+disallow_any_generics = false
