@@ -6,9 +6,9 @@ class CrawlNewPipeline():
         self.logger = settup_logger(__name__)
         self.news_client = NewsAPIClient(url=api_url, api_key=api_key)
 
-    def run(self):
-        data = self.news_client.fetch_news(filter_query="technology")
+    def run(self, keywords, export_folder, export_file_name, **kwargs):
+        data = self.news_client.fetch_news(filter_query=keywords, **kwargs)
         for piece in data:
             self.logger.info(piece)
-        export_dict_to_json_file(data=[piece.as_dict() for piece in data], folder_path="/home/cisco306/dev/news-data-pipeline/src/data", file_name="abc.json", write_mode="overwrite", create_folder=True)
+        export_dict_to_json_file(data=[piece.as_dict() for piece in data], folder_path=export_folder, file_name=export_file_name, write_mode="append", create_folder=True)
         # save to json
