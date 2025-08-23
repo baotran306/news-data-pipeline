@@ -40,6 +40,14 @@ def parse_iso_datetime(string_time):
         return None
     
 
+def check_exists_file(file_path: str):
+    file_path = file_path.rstrip()
+    if os.path.isfile(file_path):
+        return True
+    else:
+        return False
+    
+
 def validate_json_file(file_name: str):
     file_name_part = file_name.strip().split(DOT_CHAR)
     extension = file_name_part[-1].lower()
@@ -77,7 +85,7 @@ def export_dict_to_json_file(data: list[dict], folder_path, file_name, write_mod
             os.makedirs(folder_path)
 
     # If mode append, then read old data, combine write with new data
-    if write_mode == APPEND_MODE[0] and os.path.isfile(full_path):
+    if write_mode == APPEND_MODE[0] and check_exists_file(full_path):
         old_data = read_json_file(full_path)
         data.extend(old_data)
 
