@@ -7,13 +7,13 @@ from helpers import read_data_csv, read_data_json
 
 
 class ETLPipeline(ABC):
-    def __init__(self, spark: SparkSession, json_input_path: str, output_path):
+    def __init__(self, spark: SparkSession, json_input_path: str, output_path: str):
         self.spark = spark
         self.json_input_path = json_input_path
         self.output_path = output_path
         self.country_csv_path = "conf/country_code_data.csv"
 
-    def __get_data_country_code(self):
+    def __get_data_country_code(self) -> DataFrame:
         csv_options = {"header": True, "inferSchema": True}
         df = read_data_csv(self.spark, self.country_csv_path, read_options=csv_options)
         # Rename column to lower case
@@ -25,7 +25,7 @@ class ETLPipeline(ABC):
         df = df.withColumn("code", f.lower(f.col("code")))
         return df
 
-    def json_to_dataframe(self):
+    def json_to_dataframe(self) -> DataFrame:
         json_read_options = {"multiLine": True}
         df = read_data_json(self.spark, self.json_input_path, read_options=json_read_options)
         return df
@@ -58,7 +58,7 @@ class ETLPipeline(ABC):
         return df
 
     @abstractmethod
-    def load_to_target(self, df):
+    def load_to_target(self, df: DataFrame):
         pass
 
     def run(self):
