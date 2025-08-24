@@ -15,8 +15,9 @@ def run_crawl_cli(keywords, export_folder, export_file):
     from ingestion.pipeline import CrawlNewPipeline
 
     pipeline = CrawlNewPipeline(api_url=NEWS_API_URL, api_key=get_api_key())
-    pipeline.run(keywords=keywords, export_folder=export_folder, export_file_name=export_file, number=15)
+    pipeline.run(keywords=keywords, export_folder=export_folder, export_file_name=export_file)
     # TODO: Need to return offset incase rerun from a specific time
+    # TODO: Add more option support: fetch number ...
 
 
 @click.command("etl-data")
