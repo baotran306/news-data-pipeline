@@ -101,18 +101,7 @@ def identify_file_type(file_name: str):
     extension = file_name_part[-1].lower()
     cleaned_file_name = DOT_CHAR.join([*file_name_part[:-1], extension])
 
-    if extension == JSON_EXTENSION:
-        return JSON_EXTENSION, cleaned_file_name
-    elif extension == CSV_EXTENSION:
-        return CSV_EXTENSION, cleaned_file_name
-    elif extension == PARQUET_EXTENSION:
-        return PARQUET_EXTENSION, cleaned_file_name
-    elif extension == SQL_EXTENSION:
-        return SQL_EXTENSION, cleaned_file_name
-    else:
-        raise ValueError(
-            f"Error file type for {file_name}. Only support for {CSV_EXTENSION}, {PARQUET_EXTENSION}, {JSON_EXTENSION}, {SQL_EXTENSION} files"
-        )
+    return extension, cleaned_file_name
 
 
 def read_json_file(file_path: str) -> list[dict]:
