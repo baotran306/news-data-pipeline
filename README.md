@@ -17,6 +17,7 @@ This project implements a data pipeline that crawls data from a public API, as w
    - Generates SQL UPSERT scripts for PostgreSQL.
 
 ## Project Structure
+```
 .
 ├── README.md
 ├── pyproject.toml
@@ -70,6 +71,7 @@ This project implements a data pipeline that crawls data from a public API, as w
 │       └── news.py
 ├── .pre-commit-config.yaml
 └── uv.lock
+```
 
 ## Quick start
 
