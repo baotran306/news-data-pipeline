@@ -1,6 +1,6 @@
 from helpers.spark_utils import (
     dataframe_to_csv,
-    dataframe_to_json,
+    dataframe_to_excel,
     dataframe_to_parquet,
     read_data_csv,
     read_data_json,
@@ -28,6 +28,6 @@ __all__ = [
     "read_data_json",
     "read_data_parquet",
     "dataframe_to_csv",
-    "dataframe_to_json",
+    "dataframe_to_excel",
     "dataframe_to_parquet",
 ]

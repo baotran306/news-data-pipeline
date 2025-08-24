@@ -1,7 +1,9 @@
 # news-data-pipeline
+
 This project implements a data pipeline that crawls data from a public API, as well as processes the data into tabular formats. Additionally, we also provide a pipeline to exort data into CSV, Parquet, Excel file, followed by simulate upload files and generates SQL scripts for PostgreSQL. 
 
 ## Features
+
 1. **Crawling**:
    - Fetches data from a public API: [World New API](https://worldnewsapi.com/console)
    - Saves raw data as JSON files.
@@ -15,6 +17,7 @@ This project implements a data pipeline that crawls data from a public API, as w
    - Generates SQL UPSERT scripts for PostgreSQL.
 
 ## Project Structure
+```
 .
 ├── README.md
 ├── pyproject.toml
@@ -22,26 +25,24 @@ This project implements a data pipeline that crawls data from a public API, as w
 │   ├── crawl_data.json
 │   ├── merge_statement.sql
 │   └── s3_local
-│       ├── news_data_250824_103350
+│       ├── news_data_250824_210226
 │       │   ├── csv
 │       │   │   ├── _SUCCESS
-│       │   │   └── part-00000-96ac73df-314c-4e38-a4f6-0eb5889a52a3-c000.csv
-│       │   ├── json
-│       │   │   ├── _SUCCESS
-│       │   │   └── part-00000-af622f4b-5d34-4070-a62f-966a195951e4-c000.json
+│       │   │   └── part-00000-1540ac0c-a6df-414b-93a6-20f61e15d6a8-c000.csv
+│       │   ├── excel
+│       │   │   └── data.xlsx
 │       │   └── parquet
 │       │       ├── _SUCCESS
-│       │       └── part-00000-45101558-3af3-4b3d-9756-02ee25a6c867-c000.snappy.parquet
-│       └── news_data_250824_112527
+│       │       └── part-00000-694c13ce-5278-4f20-88bb-0f270b44cd55-c000.snappy.parquet
+│       └── news_data_250824_211612
 │           ├── csv
 │           │   ├── _SUCCESS
-│           │   └── part-00000-90e02790-3137-4e8d-9bfa-60736ca77e26-c000.csv
-│           ├── json
-│           │   ├── _SUCCESS
-│           │   └── part-00000-321d6c23-71f7-497e-b58b-faf5eafd618f-c000.json
+│           │   └── part-00000-38e4dc0f-1cc7-4b34-9bb6-35215af93e48-c000.csv
+│           ├── excel
+│           │   └── data.xlsx
 │           └── parquet
 │               ├── _SUCCESS
-│               └── part-00000-29bd1660-b7fc-4ed5-9bf5-1ce107952182-c000.snappy.parquet
+│               └── part-00000-60aeb5f3-fa42-473e-87a8-88b8ebe132fe-c000.snappy.parquet
 ├── src
 │   ├── __init__.py
 │   ├── conf
@@ -70,14 +71,22 @@ This project implements a data pipeline that crawls data from a public API, as w
 │       └── news.py
 ├── .pre-commit-config.yaml
 └── uv.lock
+```
 
 ## Quick start
+
+All packages and dependencies are managed in `pyproject.toml`, `uv.lock` using `uv`. You only need to install `uv`, and it will automatically install all necessary dependencies for our pipeline by creating a new virtual environment, `.venv`, in the project's root folder. For detailed instructions on how to run, see the code block below.
+
 ```bash
 # TODO: Add Makefile pre-install python, uv
 pip install uv
 
 # Move to src folder
 cd src
+
+# Export API Key: Go to https://worldnewsapi.com/console, create a free acount and get their API KEY
+# Export your API Key to use, using keyword variable `NEWS_API_KEY`
+export NEWS_API_KEY='YOUR_API_KEY'
 
 # Run pipeline crawl data
 uv run python3 main.py crawl-data --keywords technology \ 

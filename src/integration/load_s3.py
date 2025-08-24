@@ -4,7 +4,7 @@ from pyspark.sql import DataFrame
 from helpers import (
     create_temp_folder,
     dataframe_to_csv,
-    dataframe_to_json,
+    dataframe_to_excel,
     dataframe_to_parquet,
     remove_folder,
     upload_folder,
@@ -33,9 +33,10 @@ class LoadS3Pipeline(ETLPipeline):
 
         # Cache dataframe to avoid multiple reprocess due to writing multiple file formats
         # Can use different demand Storage Level base on dataset size and Spark Memory Configurations
-        df = df.persist()
+        df = df.coalesce(1).persist()
         dataframe_to_csv(df=df, output_path=f"{folder_temp}/csv")
-        dataframe_to_json(df=df, output_path=f"{folder_temp}/json")
+        option_excels = {"index": False}
+        dataframe_to_excel(df=df, output_path=f"{folder_temp}/excel", file_name="data.xlsx", write_options=option_excels)
         dataframe_to_parquet(df=df, output_path=f"{folder_temp}/parquet")
         df.unpersist()
 
